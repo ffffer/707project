@@ -19,15 +19,16 @@ def get_content(model, image):
 
 
 def content_loss(content, new_image):
-    return torch.sum(torch.pow(new_image - content, 2))
+    return torch.sqrt(torch.sum(torch.pow(new_image - content, 2)))
 
 
 def train(model, content):
+    content = Variable(content.data, requires_grad=False)
     x = Variable(torch.from_numpy(np.random.uniform(0, 255, (1, 3, 512, 512))).float(), requires_grad=True)
-    optimizer = torch.optim.Adam([x], lr=0.001)
+    optimizer = torch.optim.Adam([x], lr=0.1)
 
     for i in range(100):
-        optimizer.zero_grad()
+        model.zero_grad()
         content_x = get_content(model, x)
         l = content_loss(content, content_x)
         l.backward()
