@@ -11,6 +11,7 @@ from scipy.misc import imsave
 image_height = 512
 image_width = 512
 epoch = 10
+layer_name = 'block2_conv2'
 
 
 # def totoal_loss(x):
@@ -54,7 +55,7 @@ model = VGG16(input_tensor=input_tensor, weights='imagenet', include_top=False)
 loss = backend.variable(0.0)
 
 layers = dict([(layer.name, layer.output) for layer in model.layers])
-layer_features = layers['block1_conv2']
+layer_features = layers[layer_name]
 content_image_features = layer_features[0, :, :, :]
 combination_features = layer_features[1, :, :, :]
 loss += content_loss(content_image_features, combination_features)
@@ -108,5 +109,5 @@ res_image[:, :, 1] += 116.779
 res_image[:, :, 2] += 123.68
 res_image = np.clip(res_image, 0, 255).astype('uint8')
 
-image = Image.fromarray(x)
-image.show()
+image = Image.fromarray(res_image)
+image.save("content_"+str(layer_name)+".png")
