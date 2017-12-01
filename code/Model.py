@@ -60,6 +60,7 @@ def decoder(x):
     image = Image.fromarray(reshaped_x, 'RGB')
     image.show()
 
+
 def process_image(file):
     image = Image.open(file)
     image = image.resize((image_width, image_height))
