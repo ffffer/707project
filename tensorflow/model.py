@@ -14,7 +14,7 @@ epoch = 10
 content_weight = 0.025
 style_weight = 5.0
 total_variation_weight = 1.0
-layer_name = 'block3_conv3'
+layer_name = 'block2_conv2'
 
 
 def total_loss(x):
