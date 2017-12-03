@@ -55,7 +55,7 @@ def process_image(file):
 
 
 x = backend.placeholder((1, image_height, image_width, 3))
-input_tensor = backend.concatenate([process_image("../StarryNight.jpg"), process_image("../ghc.jpeg"), x], axis=0)
+input_tensor = backend.concatenate([process_image("../StarryNight.jpg"), process_image("../mooncake.jpeg"), x], axis=0)
 
 model = VGG16(input_tensor=input_tensor, weights='imagenet', include_top=False)
 loss = backend.variable(0.0)
@@ -126,4 +126,4 @@ res_image = np.clip(res_image, 0, 255).astype('uint8')
 
 image = Image.fromarray(res_image)
 # image.save("style_1.png")
-image.save("sample.png")
+image.save("style/sample_1.png")
