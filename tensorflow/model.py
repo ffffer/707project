@@ -64,7 +64,7 @@ layers = dict([(layer.name, layer.output) for layer in model.layers])
 layer_features = layers[layer_name]
 content_image_features = layer_features[1, :, :, :]
 combination_features = layer_features[2, :, :, :]
-loss += content_loss(content_image_features, combination_features)
+loss += content_weight * content_loss(content_image_features, combination_features)
 
 feature_layers = ['block1_conv2']
 for layer_name in feature_layers:
