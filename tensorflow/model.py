@@ -13,7 +13,7 @@ image_width = 512
 epoch = 10
 content_weight = 0.025
 style_weight = 5.0
-total_variation_weight = 1.0
+total_variation_weight = 0.1
 layer_name = 'block2_conv2'
 
 
@@ -73,6 +73,8 @@ for layer_name in feature_layers:
    combination_features = layer_features[2, :, :, :]
    sl = style_loss(style_features, combination_features)
    loss += (style_weight / len(feature_layers)) * sl
+
+loss += total_variation_weight * total_loss(x)
 
 
 grads = backend.gradients(loss, x)
