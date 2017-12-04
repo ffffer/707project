@@ -12,7 +12,7 @@ image_height = 512
 image_width = 512
 epoch = 10
 content_weight = 0.0025
-style_weight = 5.0
+style_weight = 10.0
 total_variation_weight = 0.1
 layer_name = 'block2_conv2'
 
@@ -128,4 +128,4 @@ res_image = np.clip(res_image, 0, 255).astype('uint8')
 
 image = Image.fromarray(res_image)
 # image.save("style_1.png")
-image.save("style/test_3_weights.png")
+image.save("style/test_3_weights_10_0.0025.png")
