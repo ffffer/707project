@@ -66,7 +66,7 @@ content_image_features = layer_features[1, :, :, :]
 combination_features = layer_features[2, :, :, :]
 loss += content_weight * content_loss(content_image_features, combination_features)
 
-feature_layers = ['block1_conv2']
+feature_layers = ['block1_conv2', 'block2_conv2', 'block3_conv3']
 for layer_name in feature_layers:
    layer_features = layers[layer_name]
    style_features = layer_features[0, :, :, :]
@@ -128,4 +128,4 @@ res_image = np.clip(res_image, 0, 255).astype('uint8')
 
 image = Image.fromarray(res_image)
 # image.save("style_1.png")
-image.save("style/test.png")
+image.save("style/test_3.png")
