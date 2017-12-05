@@ -11,10 +11,10 @@ from scipy.misc import imsave
 image_height = 512
 image_width = 512
 epoch = 10
-content_weight = 0.025
-style_weight = 5.0
-total_variation_weight = 1.0
-layer_name = 'block3_conv3'
+content_weight = 0.0025
+style_weight = 10.0
+total_variation_weight = 0.1
+layer_name = 'block5_conv3'
 
 
 def total_loss(x):
@@ -55,7 +55,7 @@ def process_image(file):
 
 
 x = backend.placeholder((1, image_height, image_width, 3))
-input_tensor = backend.concatenate([process_image("../StarryNight.jpg"), process_image("../ghc.jpeg"), x], axis=0)
+input_tensor = backend.concatenate([process_image("../StarryNight.jpg"), process_image("../mooncake.jpeg"), x], axis=0)
 
 model = VGG16(input_tensor=input_tensor, weights='imagenet', include_top=False)
 loss = backend.variable(0.0)
@@ -64,15 +64,17 @@ layers = dict([(layer.name, layer.output) for layer in model.layers])
 layer_features = layers[layer_name]
 content_image_features = layer_features[1, :, :, :]
 combination_features = layer_features[2, :, :, :]
-loss += content_loss(content_image_features, combination_features)
+loss += content_weight * content_loss(content_image_features, combination_features)
 
-feature_layers = ['block1_conv2']
+feature_layers = ['block1_conv2', 'block2_conv2', 'block3_conv3', 'block4_conv3', 'block5_conv3']
 for layer_name in feature_layers:
    layer_features = layers[layer_name]
    style_features = layer_features[0, :, :, :]
    combination_features = layer_features[2, :, :, :]
    sl = style_loss(style_features, combination_features)
    loss += (style_weight / len(feature_layers)) * sl
+
+loss += total_variation_weight * total_loss(x)
 
 
 grads = backend.gradients(loss, x)
@@ -126,4 +128,4 @@ res_image = np.clip(res_image, 0, 255).astype('uint8')
 
 image = Image.fromarray(res_image)
 # image.save("style_1.png")
-image.save("sample.png")
+image.save("content/sample_5.png")
